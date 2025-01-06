@@ -1,10 +1,9 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 import InputText from '@/shared/components/input-text/input-text';
 
 const LoginComponent = () => {
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -14,12 +13,11 @@ const LoginComponent = () => {
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
-  }
-
+  };
 
   return (
-    <div className='flex justify-center items-center w-full h-screen'>
-      <div className='flex flex-col gap-[11px]'>
+    <div className="flex justify-center items-center w-full h-screen">
+      <div className="flex flex-col gap-[11px]">
         <div className="">
           <InputText
             label="Login"
@@ -28,7 +26,7 @@ const LoginComponent = () => {
             placeholder="Digite seu e-mail"
             onChange={handleEmailChange}
             required
-            size='small'
+            size="small"
           />
         </div>
         <div className="">
@@ -39,9 +37,10 @@ const LoginComponent = () => {
             placeholder="Digite sua senha"
             onChange={handlePasswordChange}
             required
-            size='small'
+            size="small"
           />
         </div>
+        <button>Entrar</button>
       </div>
     </div>
   );

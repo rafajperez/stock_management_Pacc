@@ -1,26 +1,12 @@
 import React, { useState } from 'react';
 
-import { SizeType, InputTypes } from '@/shared/types/inputs-types';
+import { InputTextProps } from '@/shared/interfaces/inputs/input-text.interface';
 
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
-interface InputTextProps {
-  label?: string;
-  type?: InputTypes;
-  value?: string;
-  placeholder?: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  fullWidth?: boolean;
-  required?: boolean;
-  error?: boolean;
-  helperText?: string;
-  disabled?: boolean;
-  size?: SizeType;
-}
 
 const InputText: React.FC<InputTextProps> = ({
   label,
@@ -35,13 +21,14 @@ const InputText: React.FC<InputTextProps> = ({
   disabled = false,
   size,
 }) => {
-
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((prev) => !prev);
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-   };
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
+  };
 
   return (
     <TextField
@@ -59,19 +46,22 @@ const InputText: React.FC<InputTextProps> = ({
       variant="outlined"
       slotProps={{
         input: {
-            endAdornment: type === 'password' ? (
-                    <InputAdornment position="end">
-                        <IconButton
-                            aria-label={showPassword ? 'hide the password' : 'display the password'}
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                        >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                    </InputAdornment>
-                ) : null,
-          }}
-        }
+          endAdornment:
+            type === 'password' ? (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label={
+                    showPassword ? 'hide the password' : 'display the password'
+                  }
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ) : null,
+        },
+      }}
     />
   );
 };
