@@ -8,6 +8,7 @@ interface Props extends InputWithValidationProps {
   placeholder?: string;
   initialValue?: string;
   required?: boolean;
+  size?: 'small' | 'medium';
 }
 
 const InputTextWithValidate = ({
@@ -18,6 +19,7 @@ const InputTextWithValidate = ({
   registerName,
   watch,
   setValue,
+  size,
   error,
   loadingInput = false,
 }: Props) => {
@@ -49,6 +51,7 @@ const InputTextWithValidate = ({
             sx={InputStyled(error && watch(registerName).length < 1)}
             placeholder={placeholder}
             value={inputValue}
+            size={size}
             onChange={(e) => ChangeInputValue(e.target.value)}
           />
           {ShowError() && (

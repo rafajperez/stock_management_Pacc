@@ -1,4 +1,4 @@
-import { InputTypes, SizeType } from '@/shared/types/inputs-types';
+import { InputTypes, SizeType } from '../types/inputs-types';
 
 export interface InputTextProps {
   label?: string;

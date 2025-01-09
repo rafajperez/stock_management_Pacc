@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { InputTextProps } from '@/shared/interfaces/inputs/input-text.interface';
+import { InputTextProps } from '@/app/login/interfaces/input-text.interface';
 
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
