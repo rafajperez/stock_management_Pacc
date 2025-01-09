@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Props } from '../interface';
-import { Skeleton, TextField } from '@mui/material';
+import { IconButton, InputAdornment, Skeleton, TextField } from '@mui/material';
 import { InputStyled, txDefault } from '@/shared/constants';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Visibility from '@mui/icons-material/Visibility';
 
-const InputTextWithValidate = ({
+const InputPasswordWithValidate = ({
   label = '',
   placeholder = '',
   initialValue = '',
@@ -16,6 +18,14 @@ const InputTextWithValidate = ({
   loadingInput = false,
 }: Props) => {
   const [inputValue, setInputValue] = useState<string>(initialValue);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((prev) => !prev);
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
+  };
 
   function ShowError(): boolean {
     if (error) {
@@ -40,11 +50,31 @@ const InputTextWithValidate = ({
             required={required}
             fullWidth
             label={label}
+            type={showPassword ? 'text' : 'password'}
             sx={InputStyled(error && watch(registerName).length < 1)}
             placeholder={placeholder}
             value={inputValue}
             size={size}
             onChange={(e) => ChangeInputValue(e.target.value)}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label={
+                        showPassword
+                          ? 'hide the password'
+                          : 'display the password'
+                      }
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
           />
           {ShowError() && (
             <span
@@ -60,4 +90,4 @@ const InputTextWithValidate = ({
   );
 };
 
-export default InputTextWithValidate;
+export default InputPasswordWithValidate;

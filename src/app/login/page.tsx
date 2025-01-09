@@ -5,18 +5,16 @@ import { useForm } from 'react-hook-form';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/config';
 import { useRouter } from 'next/navigation';
-import InputText from '@/shared/components/input-text/input-text';
 import InputTextWithValidate from '@/shared/components/inputs/InputWithValidation/InputText';
 import {
-  simpleTestSchemaDefaultValues,
-  simpleTestSchemaResolver,
-} from '@/shared/formSchemas';
+  loginSchemaDefaultValues,
+  loginSchemaResolver,
+} from '@/shared/formSchemas/loginSchema';
 import DefaultFormButton from '@/shared/components/buttons/defaultFormButton';
+import InputPasswordWithValidate from '@/shared/components/inputs/InputWithValidation/InputPassword';
 
 const LoginComponent = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
   const router = useRouter();
 
@@ -26,71 +24,61 @@ const LoginComponent = () => {
     setValue,
     formState: { errors },
   } = useForm({
-    resolver: simpleTestSchemaResolver,
-    defaultValues: simpleTestSchemaDefaultValues,
+    resolver: loginSchemaResolver,
+    defaultValues: loginSchemaDefaultValues,
   });
 
-  async function onSubmitForm() {
+  // async function onSubmitForm() {
+  //   setLoading(true);
+  //   try {
+  //     const res = await signInWithEmailAndPassword(email, password);
+  //     if (res) {
+  //       document.cookie = `user=${JSON.stringify(res)}`;
+  //       setEmail('');
+  //       setPassword('');
+  //       router.push('/home');
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //     router.back();
+  //   }, 1500);
+  // }
+
+  function onSubmitForm() {
+    console.log(watch('email'));
+    console.log(watch('password'));
     setLoading(true);
-    try {
-      const res = await signInWithEmailAndPassword(email, password);
-      if (res) {
-        document.cookie = `user=${JSON.stringify(res)}`;
-        setEmail('');
-        setPassword('');
-        router.push('/home');
-      }
-    } catch (e) {
-      console.error(e);
-    }
     setTimeout(() => {
       setLoading(false);
-      router.back();
     }, 1500);
   }
 
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
   return (
-    <div className="flex justify-center items-center w-full h-screen">
+    <form className="flex justify-center items-center w-full h-screen">
       <div className="flex flex-col gap-[11px]">
-        <div className="">
-          <InputTextWithValidate
-            label="Login"
-            required
-            placeholder="Digite seu e-mail"
-            registerName={'name'}
-            setValue={setValue}
-            watch={watch}
-            error={errors?.name?.message ? errors?.name?.message : ''}
-          />
-          {/* <InputText
-            label="Login"
-            type="email"
-            value={email}
-            placeholder="Digite seu e-mail"
-            onChange={handleEmailChange}
-            required
-            size="small"
-          /> */}
-        </div>
-        <div className="">
-          <InputText
-            label="Senha"
-            type="password"
-            value={password}
-            placeholder="Digite sua senha"
-            onChange={handlePasswordChange}
-            required
-            size="small"
-          />
-        </div>
+        <InputTextWithValidate
+          label="Login"
+          required
+          placeholder="Digite seu e-mail"
+          registerName={'email'}
+          setValue={setValue}
+          watch={watch}
+          size="small"
+          error={errors?.email?.message ? errors?.email?.message : ''}
+        />
+        <InputPasswordWithValidate
+          label="Senha"
+          required
+          placeholder="Digite sua senha"
+          registerName={'password'}
+          setValue={setValue}
+          watch={watch}
+          size="small"
+          error={errors?.password?.message ? errors?.password?.message : ''}
+        />
         <DefaultFormButton
           description={'Entrar'}
           variant={'contained'}
@@ -98,7 +86,7 @@ const LoginComponent = () => {
           onClick={handleSubmit(onSubmitForm)}
         />
       </div>
-    </div>
+    </form>
   );
 };
 
